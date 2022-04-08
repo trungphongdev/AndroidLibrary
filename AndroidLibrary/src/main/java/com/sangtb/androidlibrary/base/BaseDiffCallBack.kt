@@ -2,6 +2,11 @@ package com.sangtb.androidlibrary.base
 
 import androidx.recyclerview.widget.DiffUtil
 
+/*
+    Copyright © 2022 UITS CO.,LTD
+    Created by SangTB on 4/6/2022
+*/
+
 class BaseDiffCallBack<T>(
     private val oldTask: List<T>,
     private val newTask: List<T>

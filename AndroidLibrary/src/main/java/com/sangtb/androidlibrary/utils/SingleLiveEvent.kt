@@ -2,6 +2,11 @@ package com.sangtb.androidlibrary.utils
 
 import androidx.lifecycle.*
 
+/*
+    Copyright © 2022 UITS CO.,LTD
+    Created by SangTB on 4/6/2022
+*/
+
 class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     private val liveDataToObserve: LiveData<T>

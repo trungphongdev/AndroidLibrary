@@ -10,6 +10,11 @@ import androidx.core.app.ActivityCompat
 import com.sangtb.androidlibrary.R
 import java.util.regex.Pattern
 
+/*
+    Copyright © 2022 UITS CO.,LTD
+    Created by SangTB on 4/6/2022
+*/
+
 class Validations () {
     fun isEmailValid(email: String): Boolean {
         val regExpn = ("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"

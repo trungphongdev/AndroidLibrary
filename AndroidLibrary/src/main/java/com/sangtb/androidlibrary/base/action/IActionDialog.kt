@@ -1,6 +1,7 @@
 package com.sangtb.androidlibrary.base.action;
 
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LiveData
 import com.sangtb.androidlibrary.base.data.DataDialog
 import com.sangtb.androidlibrary.utils.DialogLibrary
 import com.sangtb.androidlibrary.utils.TypeDialog
@@ -9,8 +10,9 @@ import com.sangtb.androidlibrary.utils.TypeDialog
     Copyright © 2022 UITS CO.,LTD
     Created by SangTB on 4/6/2022
 */
+
 interface IActionDialog<T : ViewDataBinding> {
-    val dataDialog : DataDialog
+    val dataDialog : LiveData<DataDialog>
     val binding : T
 
     fun setTitle(title : String) : DialogLibrary<T>

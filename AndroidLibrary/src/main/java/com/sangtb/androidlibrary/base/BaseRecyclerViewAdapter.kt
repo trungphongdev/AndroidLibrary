@@ -8,6 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
+/*
+    Copyright © 2022 UITS CO.,LTD
+    Created by SangTB on 4/6/2022
+*/
+
 abstract class BaseRecyclerViewAdapter<T : Any, VB : ViewBinding> :
     RecyclerView.Adapter<BaseRecyclerViewAdapter.BaseViewHolder<VB>>() {
 
