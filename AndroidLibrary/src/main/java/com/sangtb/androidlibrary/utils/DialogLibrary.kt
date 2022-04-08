@@ -12,6 +12,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.sangtb.androidlibrary.R
 import com.sangtb.androidlibrary.base.action.IActionDialog
 import com.sangtb.androidlibrary.base.data.DataDialog
 
@@ -20,13 +21,13 @@ import com.sangtb.androidlibrary.base.data.DataDialog
     Created by SangTB on 4/6/2022
 */
 
-abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(),IActionDialog<T> {
+abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(), IActionDialog<T> {
     private val _dataDialog = MutableLiveData(DataDialog())
 
     @get:LayoutRes
     abstract val layout: Int
 
-   private var _binding: T? = null
+    private var _binding: T? = null
         private set
 
     override fun onCreateView(
@@ -34,16 +35,24 @@ abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(),IActionDial
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding =  DataBindingUtil.inflate(inflater,layout,container,false)
+        _binding = DataBindingUtil.inflate(inflater, layout, container, false)
         return _binding!!.apply { lifecycleOwner = viewLifecycleOwner }.root
     }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_FRAME, R.style.dialogStyle)
+    }
+
     override fun onResume() {
-        val window = dialog!!.window
-        window!!.setLayout(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT
-        )
+        dialog?.window?.apply {
+            setLayout(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
+            setDimAmount(DI_AMOUNT)
+        }
         super.onResume()
     }
 
@@ -80,16 +89,17 @@ abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(),IActionDial
         return this
     }
 
-    companion object{
-        private const val TAG = "SangTB"
-    }
-
     override fun onCancel(cancel: () -> Unit) {
         dismiss()
     }
+
+    companion object {
+        private const val TAG = "SangTB"
+        private const val DI_AMOUNT = 0.9f
+    }
 }
 
-enum class TypeDialog{
+enum class TypeDialog {
     Normal,
     TWO_BUTTON,
 }
