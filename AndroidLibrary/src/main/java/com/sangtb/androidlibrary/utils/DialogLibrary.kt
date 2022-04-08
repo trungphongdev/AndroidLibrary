@@ -40,16 +40,11 @@ abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(), IActionDia
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_FRAME, R.style.dialogStyle)
-    }
-
     override fun onResume() {
         dialog?.window?.apply {
             setLayout(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
+                LinearLayout.LayoutParams.WRAP_CONTENT
             )
             setDimAmount(DI_AMOUNT)
         }
