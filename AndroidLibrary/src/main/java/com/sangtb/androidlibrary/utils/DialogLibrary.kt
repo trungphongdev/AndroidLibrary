@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -35,6 +36,15 @@ abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(),IActionDial
     ): View? {
         _binding =  DataBindingUtil.inflate(inflater,layout,container,false)
         return _binding!!.apply { lifecycleOwner = viewLifecycleOwner }.root
+    }
+
+    override fun onResume() {
+        val window = dialog!!.window
+        window!!.setLayout(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
+        super.onResume()
     }
 
     override val binding: T
