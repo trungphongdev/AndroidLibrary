@@ -91,11 +91,12 @@ abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(), IActionDia
     }
 
     override fun onCancel() {
+        Log.d(TAG, "onCancel: ")
         dismiss()
     }
 
     override fun onAccept() {
-
+        Log.d(TAG, "onAccept: ")
     }
 
     companion object {
