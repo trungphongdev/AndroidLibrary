@@ -10,6 +10,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.sangtb.androidlibrary.R
@@ -26,6 +27,8 @@ abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(), IActionDia
 
     @get:LayoutRes
     abstract val layout: Int
+
+    abstract val viewModel : AndroidViewModel
 
     private var _binding: T? = null
         private set
@@ -70,27 +73,40 @@ abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(), IActionDia
     }
 
     override fun setTitleAccept(titleAccept: String): DialogLibrary<T> {
+        Log.d(TAG, "setTitleAccept: $titleAccept")
         _dataDialog.value?.titleAccept = titleAccept
         return this
     }
 
     override fun setTitleCancel(titleCancel: String): DialogLibrary<T> {
+        Log.d(TAG, "setTitleCancel: $titleCancel")
         _dataDialog.value?.titleCancel = titleCancel
         return this
     }
 
     override fun setTypeDialog(type: TypeDialog): DialogLibrary<T> {
+        Log.d(TAG, "setTypeDialog: $type")
         _dataDialog.value?.typeDialog = type
         return this
     }
 
-    override fun onCancel(cancel: () -> Unit) {
+    override fun onCancel() {
         dismiss()
+    }
+
+    override fun onAccept() {
+
     }
 
     companion object {
         private const val TAG = "SangTB"
         private const val DI_AMOUNT = 0.9f
+    }
+
+    override fun onDestroy() {
+        Log.d(TAG, "onDestroy: ")
+        _binding = null
+        super.onDestroy()
     }
 }
 

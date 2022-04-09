@@ -20,6 +20,6 @@ interface IActionDialog<T : ViewDataBinding> {
     fun setTitleAccept(titleAccept : String) : DialogLibrary<T>
     fun setTitleCancel(titleCancel : String) : DialogLibrary<T>
     fun setTypeDialog(type : TypeDialog) : DialogLibrary<T>
-    fun onCancel(cancel: ()->Unit)
-    fun onAccept(accept: ()->Unit)
+    fun onCancel()
+    fun onAccept()
 }
