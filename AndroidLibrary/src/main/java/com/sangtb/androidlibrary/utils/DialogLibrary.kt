@@ -22,13 +22,11 @@ import com.sangtb.androidlibrary.base.data.DataDialog
     Created by SangTB on 4/6/2022
 */
 
-abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(), IActionDialog<T> {
+abstract class DialogLibrary<T : ViewDataBinding, I> : DialogFragment(), IActionDialog<T,I> {
     private val _dataDialog = MutableLiveData(DataDialog())
 
     @get:LayoutRes
     abstract val layout: Int
-
-    abstract val viewModel : AndroidViewModel
 
     private var _binding: T? = null
         private set
@@ -41,7 +39,6 @@ abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(), IActionDia
         _binding = DataBindingUtil.inflate(inflater, layout, container, false)
         return _binding!!.apply { lifecycleOwner = viewLifecycleOwner }.root
     }
-
 
     override fun onResume() {
         dialog?.window?.apply {
@@ -60,31 +57,31 @@ abstract class DialogLibrary<T : ViewDataBinding> : DialogFragment(), IActionDia
     override val dataDialog: LiveData<DataDialog>
         get() = _dataDialog
 
-    override fun setMessage(message: String): DialogLibrary<T> {
+    override fun setMessage(message: String): DialogLibrary<T,I> {
         Log.d(TAG, "setMessage: $message")
         _dataDialog.value?.message = message
         return this
     }
 
-    override fun setTitle(title: String): DialogLibrary<T> {
+    override fun setTitle(title: String): DialogLibrary<T,I> {
         Log.d(TAG, "setTitle: $title")
         _dataDialog.value?.title = title
         return this
     }
 
-    override fun setTitleAccept(titleAccept: String): DialogLibrary<T> {
+    override fun setTitleAccept(titleAccept: String): DialogLibrary<T,I> {
         Log.d(TAG, "setTitleAccept: $titleAccept")
         _dataDialog.value?.titleAccept = titleAccept
         return this
     }
 
-    override fun setTitleCancel(titleCancel: String): DialogLibrary<T> {
+    override fun setTitleCancel(titleCancel: String): DialogLibrary<T,I> {
         Log.d(TAG, "setTitleCancel: $titleCancel")
         _dataDialog.value?.titleCancel = titleCancel
         return this
     }
 
-    override fun setTypeDialog(type: TypeDialog): DialogLibrary<T> {
+    override fun setTypeDialog(type: TypeDialog): DialogLibrary<T,I> {
         Log.d(TAG, "setTypeDialog: $type")
         _dataDialog.value?.typeDialog = type
         return this
