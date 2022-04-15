@@ -13,6 +13,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
+import com.sangtb.androidlibrary.base.action.IActivityApplication
+import com.sangtb.androidlibrary.utils.findNavController
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,18 +25,25 @@ import kotlinx.coroutines.launch
     Create by SangTB on 17/10/2021.
 */
 
-abstract class BaseFragment <T : ViewDataBinding, VM : BaseViewModel> : Fragment(){
+abstract class BaseFragment<T : ViewDataBinding, VM : BaseViewModel> : Fragment(),
+    IActivityApplication {
     protected val TAG by lazy { this::class.java.name }
 
-    private var _binding : T? = null
+    private var _binding: T? = null
     protected val binding get() = _binding!!
 
-    abstract val viewModel : VM
+    abstract val viewModel: VM
 
     @get:LayoutRes
-    abstract val layoutId : Int
+    abstract val layoutId: Int
 
-    private  var jopEventReceiver : Job? = null
+    private var jopEventReceiver: Job? = null
+
+    val activityApplication: IActivityApplication? by lazy {
+        (parentFragment as? NavHostFragment)?.parentFragment as? IActivityApplication
+    }
+
+    override var rootView = activityApplication?.rootView
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,13 +54,14 @@ abstract class BaseFragment <T : ViewDataBinding, VM : BaseViewModel> : Fragment
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate: ")
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         Log.d(TAG, "onCreateView: ")
-        _binding = DataBindingUtil.inflate(inflater,layoutId,container,false)
+        _binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         return _binding!!.apply { lifecycleOwner = viewLifecycleOwner }.root
     }
 
@@ -59,11 +70,11 @@ abstract class BaseFragment <T : ViewDataBinding, VM : BaseViewModel> : Fragment
         Log.d(TAG, "onViewCreated: ")
         jopEventReceiver = lifecycleScope.launch {
             viewModel.eventReceiver.collectLatest {
-                when(it){
-                    is AppEvent.OnNavigation -> navigateToDestination(it.destination,it.bundle)
+                when (it) {
+                    is AppEvent.OnNavigation -> navigateToDestination(it.destination, it.bundle)
                     AppEvent.OnCloseApp -> activity?.finish()
                     AppEvent.OnBackScreen -> onBackFragment()
-                    is AppEvent.OnShowToast -> showToast(it.content,it.type)
+                    is AppEvent.OnShowToast -> showToast(it.content, it.type)
                 }
             }
         }
@@ -78,7 +89,7 @@ abstract class BaseFragment <T : ViewDataBinding, VM : BaseViewModel> : Fragment
         super.onResume()
         Log.d(TAG, "onResume: ")
     }
-    
+
     override fun onPause() {
         super.onPause()
         Log.d(TAG, "onPause: ")
@@ -88,30 +99,33 @@ abstract class BaseFragment <T : ViewDataBinding, VM : BaseViewModel> : Fragment
         super.onStop()
         Log.d(TAG, "onStop: ")
     }
-    
 
     open fun showToast(content: String, type: Int) {
-        Toast.makeText(context,content,type).show()
+        Toast.makeText(context, content, type).show()
     }
 
     open fun onBackFragment() {
         Log.d(TAG, "onBackFragment: ")
+        findNavController().popBackStack()
     }
 
     open fun navigateToDestination(destination: Int, bundle: Bundle?) {
         Log.d(TAG, "navigateToDestination: ")
+        bundle?.let {
+            findNavController().navigate(destination, it)
+        } ?: findNavController().navigate(destination)
     }
 
-    open fun openAnotherApp(packageName : String,bundle: Bundle?){
+    open fun openAnotherApp(packageName: String, bundle: Bundle?) {
         val launch = context?.packageManager?.getLaunchIntentForPackage(packageName)
         launch?.let {
             it.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(it,bundle)
+            startActivity(it, bundle)
         }
     }
 
-    open fun closeApp(){
+    open fun closeApp() {
         activity?.finish()
     }
 
@@ -121,14 +135,18 @@ abstract class BaseFragment <T : ViewDataBinding, VM : BaseViewModel> : Fragment
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        Log.d(TAG, "onDestroyView: ")
         jopEventReceiver?.cancel()
         _binding = null
-        Log.d(TAG, "onDestroyView: ")
+        super.onDestroyView()
     }
 
     override fun onDetach() {
         super.onDetach()
         Log.d(TAG, "onDetach: ")
+    }
+
+    fun onClearViewModelInScopeActivity() {
+        activity?.viewModelStore?.clear()
     }
 }
