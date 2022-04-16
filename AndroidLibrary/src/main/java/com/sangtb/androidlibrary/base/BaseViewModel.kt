@@ -34,6 +34,36 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     }
 
     fun getString(idString: Int) = getApplication<Application>().resources.getString(idString)
+
+    fun navigateToDestination(action: Int, bundle: Bundle?) = viewModelScope.launch {
+        evenSender.send(
+            AppEvent.OnNavigation(action, bundle)
+        )
+    }
+
+    fun backScreen() = viewModelScope.launch {
+        evenSender.send(
+            AppEvent.OnBackScreen
+        )
+    }
+
+    fun closeApp() = viewModelScope.launch {
+        evenSender.send(
+            AppEvent.OnCloseApp
+        )
+    }
+
+    fun showToast(content: String)= viewModelScope.launch{
+        evenSender.send(
+            AppEvent.OnShowToast(content)
+        )
+    }
+
+    fun showToast(contentID: Int) = viewModelScope.launch {
+        evenSender.send(
+            AppEvent.OnShowToast(getString(contentID))
+        )
+    }
 }
 
 sealed class AppEvent {

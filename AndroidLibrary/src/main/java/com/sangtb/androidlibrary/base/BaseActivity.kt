@@ -1,6 +1,7 @@
 package com.sangtb.androidlibrary.base
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -19,6 +20,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IActivityAp
     protected lateinit var binding: VB
     protected lateinit var controller: NavController
     private lateinit var navHostFragment: NavHostFragment
+    override var rootView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
