@@ -1,5 +1,7 @@
 package com.sangtb.androidlibrary.utils;
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,13 +24,13 @@ import com.sangtb.androidlibrary.base.data.DataDialog
     Created by SangTB on 4/6/2022
 */
 
-abstract class DialogLibrary<T : ViewDataBinding, I> : DialogFragment(), IActionDialog<T,I> {
+abstract class DialogLibrary<VB : ViewDataBinding, T> : DialogFragment(), IActionDialog<VB,T> {
     private val _dataDialog = MutableLiveData(DataDialog())
 
     @get:LayoutRes
     abstract val layout: Int
 
-    private var _binding: T? = null
+    private var _binding: VB? = null
         private set
 
     override fun onCreateView(
@@ -51,37 +53,37 @@ abstract class DialogLibrary<T : ViewDataBinding, I> : DialogFragment(), IAction
         super.onResume()
     }
 
-    override val binding: T
+    override val binding: VB
         get() = _binding!!
 
     override val dataDialog: LiveData<DataDialog>
         get() = _dataDialog
 
-    override fun setMessage(message: String): DialogLibrary<T,I> {
+    override fun setMessage(message: String): DialogLibrary<VB,T> {
         Log.d(TAG, "setMessage: $message")
         _dataDialog.value?.message = message
         return this
     }
 
-    override fun setTitle(title: String): DialogLibrary<T,I> {
+    override fun setTitle(title: String): DialogLibrary<VB,T> {
         Log.d(TAG, "setTitle: $title")
         _dataDialog.value?.title = title
         return this
     }
 
-    override fun setTitleAccept(titleAccept: String): DialogLibrary<T,I> {
+    override fun setTitleAccept(titleAccept: String): DialogLibrary<VB,T> {
         Log.d(TAG, "setTitleAccept: $titleAccept")
         _dataDialog.value?.titleAccept = titleAccept
         return this
     }
 
-    override fun setTitleCancel(titleCancel: String): DialogLibrary<T,I> {
+    override fun setTitleCancel(titleCancel: String): DialogLibrary<VB,T> {
         Log.d(TAG, "setTitleCancel: $titleCancel")
         _dataDialog.value?.titleCancel = titleCancel
         return this
     }
 
-    override fun setTypeDialog(type: TypeDialog): DialogLibrary<T,I> {
+    override fun setTypeDialog(type: TypeDialog): DialogLibrary<VB,T> {
         Log.d(TAG, "setTypeDialog: $type")
         _dataDialog.value?.typeDialog = type
         return this
@@ -94,6 +96,7 @@ abstract class DialogLibrary<T : ViewDataBinding, I> : DialogFragment(), IAction
 
     override fun onAccept() {
         Log.d(TAG, "onAccept: ")
+        dismiss()
     }
 
     companion object {

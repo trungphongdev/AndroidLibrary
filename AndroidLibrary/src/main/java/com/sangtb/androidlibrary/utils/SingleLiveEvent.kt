@@ -1,4 +1,4 @@
-package com.sangtb.game.utils;
+package com.sangtb.androidlibrary.utils;
 
 /*
     Copyright © 2022 UITS CO.,LTD

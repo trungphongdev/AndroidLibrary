@@ -3,6 +3,7 @@ package com.sangtb.androidlibrary.base
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -26,12 +27,13 @@ abstract class BaseRecyclerViewAdapter<T : Any, VB : ViewBinding> :
         this.items = items
     }
 
-    protected abstract fun getLayout(): Int
+    @get:LayoutRes
+    protected abstract val layoutId: Int
 
     override fun getItemCount() = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = BaseViewHolder<VB>(
-        DataBindingUtil.inflate(LayoutInflater.from(parent.context), getLayout(), parent, false)
+        DataBindingUtil.inflate(LayoutInflater.from(parent.context), layoutId, parent, false)
     )
 
     class BaseViewHolder<VB : ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
