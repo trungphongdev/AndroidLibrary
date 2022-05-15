@@ -15,6 +15,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.viewbinding.ViewBinding
 import com.sangtb.androidlibrary.base.action.IActivityApplication
+import com.sangtb.androidlibrary.utils.CommonHelper
+import com.sangtb.androidlibrary.utils.ToastManager
 
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IActivityApplication {
     @get:LayoutRes
@@ -26,6 +28,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IActivityAp
     protected lateinit var controller: NavController
     private lateinit var navHostFragment: NavHostFragment
     override var rootView: View? = null
+    private val toastManager : ToastManager by lazy { ToastManager.getInstance() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +41,16 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IActivityAp
         setupActionBarWithNavController(controller)
         supportActionBar?.hide()
 
+        toastManager.errorThrowable.observe(this) {
+            CommonHelper.makeToast(this,it.message, TOAST_DURATION)
+        }
+
         setUpActivityApplication()
+        setUpObserve()
+    }
+
+    private fun setUpObserve() {
+
     }
 
     protected fun isPermissionGrant() : Boolean{
@@ -59,5 +71,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IActivityAp
 
     private fun setUpActivityApplication() {
         rootView = binding.root
+    }
+
+    companion object{
+        const val TOAST_DURATION = 1000
     }
 }
