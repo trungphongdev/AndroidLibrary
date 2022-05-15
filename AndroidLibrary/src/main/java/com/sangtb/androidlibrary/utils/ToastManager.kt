@@ -1,7 +1,5 @@
 package com.sangtb.androidlibrary.utils
 
-import com.sangtb.game.utils.SingleLiveEvent
-
 class ToastManager private constructor(){
 
     val errorThrowable = SingleLiveEvent<Throwable>()
