@@ -12,19 +12,17 @@ import com.sangtb.androidlibrary.utils.TypeDialog
     Created by SangTB on 4/6/2022
 */
 
-interface IActionDialog<T : ViewDataBinding, I> {
+interface IActionDialog<T : ViewDataBinding> {
     val dataDialog: LiveData<DataDialog>
     val binding: T
     val viewModel: AndroidViewModel?
         get() = null
-    val listener: I?
-        get() = null
 
-    fun setTitle(title: String): DialogLibrary<T, I>
-    fun setMessage(message: String): DialogLibrary<T, I>
-    fun setTitleAccept(titleAccept: String): DialogLibrary<T, I>
-    fun setTitleCancel(titleCancel: String): DialogLibrary<T, I>
-    fun setTypeDialog(type: TypeDialog): DialogLibrary<T, I>
+    fun setTitle(title: String): DialogLibrary<T>
+    fun setMessage(message: String): DialogLibrary<T>
+    fun setTitleAccept(titleAccept: String): DialogLibrary<T>
+    fun setTitleCancel(titleCancel: String): DialogLibrary<T>
+    fun setTypeDialog(type: TypeDialog): DialogLibrary<T>
     fun onCancel()
     fun onAccept()
 }

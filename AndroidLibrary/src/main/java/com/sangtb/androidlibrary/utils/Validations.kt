@@ -17,7 +17,7 @@ import java.util.regex.Pattern
     Created by SangTB on 4/6/2022
 */
 
-class Validations () {
+object Validations {
     fun isEmailValid(email: String): Boolean {
         val regExpn = ("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
                 + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
@@ -86,24 +86,6 @@ class Validations () {
         }
         return result
     }
-
-//    fun isPermissionGrand(list: Array<String>): Boolean {
-//        for (i in list) {
-//            if (ActivityCompat.checkSelfPermission(
-//                    _context,
-//                    i
-//                ) != PackageManager.PERMISSION_GRANTED
-//            ) {
-//                return false
-//            }
-//        }
-//        return true
-//    }
-
-//    fun checkGpsStatus(): Boolean {
-//        val locationManager = _context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-//    }
 
     private fun isValidSpecialCharacters(s: String?): Boolean {
         val regex = Pattern.compile("[$&+,:;=\\?@#|/'<>.^*()%!-]") //~`•√ππ÷×¶∆\}{°¢€£©®™✓

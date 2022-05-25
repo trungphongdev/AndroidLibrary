@@ -3,10 +3,7 @@ package com.sangtb.androidlibrary.utils
 class ToastManager private constructor(){
 
     val errorThrowable = SingleLiveEvent<Throwable>()
-
-    fun showErrorThrowable(throwable: Throwable){
-        errorThrowable.postValue(throwable)
-    }
+    val loadingDialog = SingleLiveEvent<Boolean>()
 
     private object Holder { val INSTANCE = ToastManager()}
 

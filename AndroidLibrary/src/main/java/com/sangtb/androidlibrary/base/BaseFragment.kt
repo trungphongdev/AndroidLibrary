@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.sangtb.androidlibrary.base.action.IActivityApplication
+import com.sangtb.androidlibrary.utils.Validations
 import com.sangtb.androidlibrary.utils.findNavController
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -77,6 +78,10 @@ abstract class BaseFragment<T : ViewDataBinding, VM : BaseViewModel> : Fragment(
                     is AppEvent.OnShowToast -> showToast(it.content, it.type)
                 }
             }
+        }
+
+        binding.root.setOnClickListener {
+            Validations.hideKeyboard(it,requireContext())
         }
     }
 
