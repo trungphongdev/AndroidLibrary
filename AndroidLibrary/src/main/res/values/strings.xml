@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="null_error">This field require not null</string>
+    <string name="email_error">Email is not valid</string>
+    <string name="password_error">Password must input at least 6 character</string>
+    <string name="phone_error">Phone number is not valid</string>
+    <string name="name_is_not_valid">User Name is not valid</string>
+    <string name="address_error">Address is not valid</string>
+</resources>

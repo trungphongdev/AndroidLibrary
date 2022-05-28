@@ -1,47 +1,50 @@
 package com.sangtb.androidlibrary.base.data.repository
 
+import android.util.Log
 import com.sangtb.androidlibrary.utils.ToastManager
 import kotlinx.coroutines.*
 
 abstract class BaseRepository {
+    protected val TAG = this.javaClass.name
     protected val toastManager = ToastManager.getInstance()
     private var jog: Job? = null
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private val coroutineScope =
-        CoroutineScope(Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
-            toastManager.errorThrowable.postValue(throwable)
-            toastManager.loadingDialog.postValue(false)
-            jog?.cancel()
-        })
-
-    protected fun callApi(method: suspend () -> Unit) {
+    protected open fun callApi(method: suspend () -> Unit) {
         jog = coroutineScope.launch {
-            toastManager.loadingDialog.postValue(true)
-            method.invoke()
-            toastManager.loadingDialog.postValue(false)
-            cancel()
-        }
-    }
-
-    protected fun cancelCoroutine(){
-        jog?.cancel()
-        jog = null
-    }
-
-    suspend fun <T> safeApiCall(apiCall: suspend () -> T): T? {
-        toastManager.loadingDialog.postValue(true)
-        return withContext(Dispatchers.IO) {
             try {
-                apiCall.invoke()
-            } catch (e: Throwable) {
+                toastManager.loadingDialog.postValue(true)
+                method.invoke()
+            }catch (e : Throwable){
+                Log.d(TAG, "callApi exception: ${e.message}")
                 toastManager.errorThrowable.postValue(e)
+            }finally {
                 toastManager.loadingDialog.postValue(false)
-                null
             }
         }
     }
 
-    suspend fun <T> safeApiCall(vararg apiCall: suspend()->T): List<Pair<Int, T>>? {
+    protected open fun cancelCoroutine(){
+        jog?.cancel()
+        jog = null
+    }
+
+    open suspend fun <T> safeApiCall(apiCall: suspend () -> T): T? {
+        toastManager.loadingDialog.postValue(true)
+        return withContext(Dispatchers.IO) {
+            try {
+                return@withContext apiCall.invoke()
+            } catch (e: Throwable) {
+                Log.d(TAG, "safeApiCall: ${e.message.toString()}")
+                toastManager.errorThrowable.postValue(e)
+                null
+            }finally {
+                toastManager.loadingDialog.postValue(false)
+            }
+        }
+    }
+
+    open suspend fun <T> safeApiCall(vararg apiCall: suspend()->T): List<Pair<Int, T>>? {
         toastManager.loadingDialog.postValue(true)
 
         return withContext(Dispatchers.IO) {
@@ -55,9 +58,10 @@ abstract class BaseRepository {
                 runningTasks.awaitAll()
             } catch (e: Throwable) {
                 toastManager.errorThrowable.postValue(e)
+                null
+            }finally {
                 toastManager.loadingDialog.postValue(false)
                 coroutineContext.cancelChildren()
-                null
             }
         }
     }

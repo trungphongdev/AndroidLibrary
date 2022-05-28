@@ -35,7 +35,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     open fun getString(idString: Int) = getApplication<Application>().resources.getString(idString)
 
-    open fun navigateToDestination(action: Int, bundle: Bundle?) = viewModelScope.launch {
+    open fun navigateToDestination(action: Int, bundle: Bundle?=null) = viewModelScope.launch {
         evenSender.send(
             AppEvent.OnNavigation(action, bundle)
         )
