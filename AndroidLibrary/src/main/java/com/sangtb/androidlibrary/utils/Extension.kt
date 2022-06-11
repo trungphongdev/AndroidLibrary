@@ -59,11 +59,14 @@ fun View.showPopUp(menu : Int, action: (Int)->Unit){
                 (it as? TextView)?.let { textView->
                     textView.text = item.title
                     action.invoke(item.itemId)
+                    return@setOnMenuItemClickListener true
                 }
                 (it as? EditText)?.let { editText->
                     editText.setText(item.title)
                     action.invoke(item.itemId)
+                    return@setOnMenuItemClickListener true
                 }
+                action.invoke(item.itemId)
                 true
             }
             show()

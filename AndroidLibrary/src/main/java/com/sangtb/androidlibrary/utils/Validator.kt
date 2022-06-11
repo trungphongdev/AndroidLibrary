@@ -27,7 +27,7 @@ object Validator {
 
     fun EditText.validate(
         listValidator: List<(String) -> Int?>? = null,
-        isRequireEmptyCheck: Boolean = false
+        isRequireEmptyCheck: Boolean = true
     ): Pair<EditText, Boolean> {
         this.doOnTextChanged { text, _, _, _ ->
             listValidator?.let {
