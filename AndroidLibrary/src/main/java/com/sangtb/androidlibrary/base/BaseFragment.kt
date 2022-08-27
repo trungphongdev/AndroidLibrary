@@ -16,7 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.sangtb.androidlibrary.base.action.IActivityApplication
 import com.sangtb.androidlibrary.utils.Validations
-import com.sangtb.androidlibrary.utils.findNavController
+import com.sangtb.androidlibrary.extension.findNavController
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

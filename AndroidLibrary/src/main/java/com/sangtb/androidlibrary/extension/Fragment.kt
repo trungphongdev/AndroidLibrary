@@ -1,4 +1,4 @@
-package com.sangtb.androidlibrary.utils
+package com.sangtb.androidlibrary.extension
 
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController

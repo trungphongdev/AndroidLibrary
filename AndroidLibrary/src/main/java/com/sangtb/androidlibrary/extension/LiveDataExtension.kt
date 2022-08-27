@@ -1,4 +1,4 @@
-package com.sangtb.androidlibrary.utils
+package com.sangtb.androidlibrary.extension
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
