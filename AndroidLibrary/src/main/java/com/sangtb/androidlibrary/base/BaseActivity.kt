@@ -39,7 +39,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity(), IActivityAp
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.inflate(layoutInflater, layoutId, null, false)
         setContentView(binding.root)
-
         navHostFragment =
             supportFragmentManager.findFragmentById(fragmentContainerView) as NavHostFragment
         controller = navHostFragment.findNavController()

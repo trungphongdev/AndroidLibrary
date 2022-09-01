@@ -2,6 +2,7 @@ package com.sangtb.androidlibrary.extension
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 
 inline fun <T1, T2, R> LiveData<T1>.combine(
     liveData2: LiveData<T2>,
@@ -39,4 +40,8 @@ inline fun <R> combineLiveData(
             value = transform(listDataCallback)
         }
     }
+}
+
+fun <T> MutableLiveData<T>.forceRefresh() {
+    this.value = this.value
 }

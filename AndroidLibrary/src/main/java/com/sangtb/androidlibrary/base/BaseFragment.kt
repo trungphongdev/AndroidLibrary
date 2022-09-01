@@ -114,7 +114,7 @@ abstract class BaseFragment<T : ViewDataBinding, VM : BaseViewModel> : Fragment(
         findNavController().popBackStack()
     }
 
-    open fun navigateToDestination(destination: Int, bundle: Bundle?) {
+    open fun navigateToDestination(destination: Int, bundle: Bundle? = null) {
         Log.d(TAG, "navigateToDestination: ")
         bundle?.let {
             findNavController().navigate(destination, it)

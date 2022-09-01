@@ -3,6 +3,7 @@ package com.sangtb.androidlibrary.extension;
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.WindowManager
@@ -71,6 +72,16 @@ fun View.showPopUp(menu : Int, action: (Int)->Unit){
             }
             show()
         }
+    }
+}
+
+fun AppCompatActivity.hideStatusBarAndNavigationBar() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
+        window.navigationBarColor = Color.TRANSPARENT
     }
 }
 
