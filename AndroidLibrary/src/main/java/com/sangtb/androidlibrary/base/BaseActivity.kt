@@ -16,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.viewbinding.ViewBinding
 import com.sangtb.androidlibrary.base.action.IActivityApplication
-import com.sangtb.androidlibrary.utils.ClassUtils.getAnnotation
 import com.sangtb.androidlibrary.utils.CommonHelper
 import com.sangtb.androidlibrary.utils.ToastManager
 
