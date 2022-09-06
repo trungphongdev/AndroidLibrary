@@ -7,7 +7,7 @@ object AnnotationManager {
     private const val MIN_DEEP = 0
     private const val MAX_DEEP = 5
 
-    fun <A : Annotation> getAnnotation1(clazz : Class<*>, annotationClass: Class<A>): A? {
+    fun <A : Annotation> getAnnotation(clazz : Class<*>, annotationClass: Class<A>): A? {
         if (!treeManager.contains(clazz.name)) {
             return findAnnotation(clazz,annotationClass, MIN_DEEP)?.apply {
                 treeManager[javaClass.name] = this
@@ -30,5 +30,5 @@ object AnnotationManager {
 }
 
 public inline fun <reified A : Annotation> Any.getAnnotation(): A?{
-    return AnnotationManager.getAnnotation1<A>(javaClass,A::class.java)
+    return AnnotationManager.getAnnotation<A>(javaClass,A::class.java)
 }
