@@ -1,4 +1,4 @@
-package com.sangtb.androidlibrary.widgets.images
+package com.sangtb.androidlibrary.views.images
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
@@ -25,7 +25,7 @@ import com.sangtb.androidlibrary.R
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-// View dùng để resize ảnh
+// View dùng để resize ảnh, trượt ảnh qua trái, lên, xuống,...
 @SuppressLint("AppCompatCustomView")
 class PinchZoomImageView : ImageView {
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.sangtb.androidlibrary.widgets.images.PinchZoomImageView
+    <com.sangtb.androidlibrary.views.images.PinchZoomImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_default_image"
